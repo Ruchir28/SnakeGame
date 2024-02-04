@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "welcomescreen.h"
 #include <thread>
+#include "highscoremanager.h"
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -14,6 +15,7 @@ int main() {
   constexpr std::size_t kGridHeight{32};
   constexpr std::size_t kLineHeight{200};
   constexpr std::size_t kLineWidth{500};
+  HighScoreManager highScoreManager;
   WelcomeScreen welcomeScreen(kScreenWidth, kScreenHeight, kLineWidth, kLineHeight);
   Controller controller;
   Game game(kGridWidth, kGridHeight);
@@ -24,5 +26,6 @@ int main() {
   std::cout << "Game has terminated successfully!\n";
   std::cout << "User:" << game.GetUserName() <<" Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
+  highScoreManager.addScore(game.GetUserName(),game.GetScore());
   return 0;
 }
