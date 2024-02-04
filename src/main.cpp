@@ -5,6 +5,11 @@
 #include "welcomescreen.h"
 #include <thread>
 #include "highscoremanager.h"
+#include "messagequeue.h"
+#include "asynclogger.h"
+
+void logMessage(MessageQueue<std::string> &loggerQueue);
+
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -15,17 +20,23 @@ int main() {
   constexpr std::size_t kGridHeight{32};
   constexpr std::size_t kLineHeight{200};
   constexpr std::size_t kLineWidth{500};
+
   HighScoreManager highScoreManager;
   WelcomeScreen welcomeScreen(kScreenWidth, kScreenHeight, kLineWidth, kLineHeight);
   Controller controller;
+
   Game game(kGridWidth, kGridHeight);
   game.welcomeScreen(std::move(welcomeScreen), kMsPerFrame);
   std::cout << "Here";
+  
+  AsyncLogger::getInstance() << "Game has started!";
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "User:" << game.GetUserName() <<" Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
   highScoreManager.addScore(game.GetUserName(),game.GetScore());
+  // AsyncLogger::getInstance() << "Game has terminated successfully!";
+  // AsyncLogger::getInstance() << "User:" + game.GetUserName() + " Score: " + std::to_string(game.GetScore());
   return 0;
 }
