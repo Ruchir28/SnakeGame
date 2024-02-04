@@ -7,8 +7,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
-  PlaceFood();
+      random_h(0, static_cast<int>(grid_height - 1)),
+      special_food_random(0, 100),
+      special_food{-1, -1} {
+  PlaceFood(food);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -18,17 +20,30 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
+  Uint32 special_food_start = 0;
   bool running = true;
+  bool special_food_rendered = false;
 
   while (running) {
     frame_start = SDL_GetTicks();
-
+    if(special_food.x != -1 && special_food.y != -1) {
+      if(!special_food_rendered) special_food_start = SDL_GetTicks();
+      special_food_rendered = true;
+    } else {
+      special_food_rendered = false;
+    }
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, special_food);
 
     frame_end = SDL_GetTicks();
+
+    if(special_food_rendered &&  (frame_end - special_food_start) >= 5000) {
+      special_food.x = -1;
+      special_food.y = -1;
+      special_food_rendered = false;
+    }
 
     // Keep track of how long each loop through the input/update/render cycle
     // takes.
@@ -105,7 +120,7 @@ std::string Game::GetUserName() const {
   return userName;
 }
 
-void Game::PlaceFood() {
+void Game::PlaceFood(SDL_Point &food) {
   int x, y;
   while (true) {
     x = random_w(engine);
@@ -129,10 +144,21 @@ void Game::Update() {
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
 
+  if(special_food.x == new_x && special_food.y == new_y) {
+    score += 5;
+    special_food.x = -1;
+    special_food.y = -1;
+  }
+
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
     score++;
-    PlaceFood();
+    PlaceFood(food);
+    if(special_food.x == -1 && special_food.y == -1) {
+      if(special_food_random(engine) < 20) {
+        PlaceFood(special_food);
+      }
+    }
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
