@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SDL.h"
 
+
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
@@ -48,6 +49,60 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
+}
+
+void Game::welcomeScreen(WelcomeScreen &&welcomeScreen, std::size_t kMsPerFrame) {
+  Uint32 frame_start;
+  Uint32 frame_end; 
+  Uint32 frame_duration;
+  bool quit = false;
+  SDL_Event e;
+  // Text input from user
+  std::string userInput = "";
+  SDL_StartTextInput();
+  while (!quit) {
+    frame_start = SDL_GetTicks();
+    // Handle events on queue
+    if (SDL_PollEvent(&e) != 0) {
+      // User requests quit
+      if (e.type == SDL_QUIT) {
+        quit = true;
+      }
+      if(e.type == SDL_TEXTINPUT) {
+        /* Add new text onto the end of our text */
+        userInput += e.text.text;
+      }
+      if (e.type == SDL_KEYDOWN) {
+        switch (e.key.keysym.sym) {
+          case SDLK_RETURN:
+            quit = true;
+            break;
+          case SDLK_BACKSPACE:
+            if (userInput.length() > 0) {
+              userInput.pop_back();
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
+    // Render the welcome screen
+    welcomeScreen.Render(userInput);
+
+    frame_end = SDL_GetTicks();
+    frame_duration = frame_end - frame_start;
+    if (frame_duration < kMsPerFrame) {
+      SDL_Delay(kMsPerFrame - frame_duration);
+    }
+  }
+  SDL_StopTextInput();
+  userName = userInput;
+}
+
+std::string Game::GetUserName() const {
+  return userName;
 }
 
 void Game::PlaceFood() {

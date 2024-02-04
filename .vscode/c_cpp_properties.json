@@ -4,7 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/homebrew/Cellar/sdl2/**"
+                "/opt/homebrew/Cellar/sdl2/**",
+                "/opt/homebrew/Cellar/sdl2_ttf/**"
             ],
             "defines": [],
             "macFrameworkPath": [

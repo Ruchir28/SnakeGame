@@ -2,6 +2,8 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "welcomescreen.h"
+#include <thread>
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -10,13 +12,17 @@ int main() {
   constexpr std::size_t kScreenHeight{640};
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
-
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  constexpr std::size_t kLineHeight{200};
+  constexpr std::size_t kLineWidth{500};
+  WelcomeScreen welcomeScreen(kScreenWidth, kScreenHeight, kLineWidth, kLineHeight);
   Controller controller;
   Game game(kGridWidth, kGridHeight);
+  game.welcomeScreen(std::move(welcomeScreen), kMsPerFrame);
+  std::cout << "Here";
+  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
+  std::cout << "User:" << game.GetUserName() <<" Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
   return 0;
 }
