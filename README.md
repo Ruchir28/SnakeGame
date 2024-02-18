@@ -8,6 +8,13 @@ The Capstone Project gives you a chance to integrate what you've learned through
 
 In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
 
+## Features added 
+1. Player name input window
+2. Speical Food with 5 points, which is visible for 5 seconds
+3. Logger using threads , which logs text in logger/log.txt file 
+4. high score component which manager top 5 scores of the game and logs them to scores/high_score.txt file
+5. Added Pause Functionality with space button
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
