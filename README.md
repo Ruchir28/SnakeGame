@@ -4,9 +4,6 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 
 <img src="snake_game.gif"/>
 
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
-
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
 
 ## Features added 
 1. Player name input window
@@ -14,6 +11,25 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Logger using threads , which logs text in logger/log.txt file 
 4. high score component which manager top 5 scores of the game and logs them to scores/high_score.txt file
 5. Added Pause Functionality with space button
+
+### Loop, Functions, I/O
+1. ```Game::welcomeScreen``` method takes input from users, and renders a welcome screen prompt.
+2. ``` HighScoreManager ``` class manages user highscores, reads highscore scores/high_score.txt file, 
+   and maintains a list of all time 5 highest scores
+
+### Object Oriented Programming
+1. ```HighScoreManager, MessageQueue, WelcomeScreen``` classes are added which utilise OOP and genric templates
+2. ```WelcomeScreen``` utilises member intiation lists 
+
+### Memory Management 
+1. ```WelcomeScreen``` utilises destructors 
+2. ```Game::welcomeScreen``` and ```MessageQueue``` utilises move semantics 
+3. ```WelcomeScreen``` follows rule of 5.
+
+### Concurrency
+1. ```AsyncLogger``` uses multithreading and insert logs in logger/log.txt file.
+2. ```MessageQueue``` condition variables is utilised by messagequeue.
+ 
 
 ## Dependencies for Running Locally
 * cmake >= 3.7

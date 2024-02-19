@@ -36,7 +36,7 @@ int main() {
   std::cout << "User:" << game.GetUserName() <<" Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
   highScoreManager.addScore(game.GetUserName(),game.GetScore());
-  // AsyncLogger::getInstance() << "Game has terminated successfully!";
-  // AsyncLogger::getInstance() << "User:" + game.GetUserName() + " Score: " + std::to_string(game.GetScore());
+  AsyncLogger::getInstance() << "Game has terminated successfully!";
+  AsyncLogger::getInstance() << "User:" + game.GetUserName() + " Score: " + std::to_string(game.GetScore());
   return 0;
 }

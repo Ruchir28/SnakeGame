@@ -1,2 +1,4 @@
 Starting log
 Game has started!
+Game has terminated successfully!
+User:Hello Score: 4
