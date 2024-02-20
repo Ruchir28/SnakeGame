@@ -45,6 +45,10 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
+* SDL2_TTF 
+  * sdl2_ttf can be installed used 
+    * Mac: [brew install sdl2_ttf]
+    * Linux: [sudo apt-get install libsdl2-ttf-dev] 
 
 ## Basic Build Instructions
 
